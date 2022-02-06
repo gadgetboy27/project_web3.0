@@ -1,11 +1,16 @@
 import React, { useContext } from "react";
-
+// import Web3 from "web3";
 import { TransactionContext } from "../context/TransactionContext";
-
 import useFetch from "../hooks/useFetch";
 import dummyData from "../utils/dummyData";
 import { shortenAddress } from "../utils/shortenAddress";
 
+// Load web3
+// async blocks() {
+// let web3 = new Web3("https://mainnet.infura.io/v3/ea46eb126c0c4be3b42a67968fc8ed8e");
+// let latestBlock = await web3.eth.subscribe("latest");
+// console.log("latest block", latestBlock);
+//  }
 const TransactionsCard = ({ addressTo, addressFrom, timestamp, message, keyword, amount, url }) => {
   const gifUrl = useFetch({ keyword });
 
@@ -55,7 +60,7 @@ const Transactions = () => {
       <div className="flex flex-col md:p-12 py-12 px-4">
         {currentAccount ? (
           <h3 className="text-white text-3xl text-center my-2">
-            Latest Transactions
+            Latest Ethereum Transactions
           </h3>
         ) : (
           <h3 className="text-white text-3xl text-center my-2">

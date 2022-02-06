@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { ethers } from "ethers";
-
 import { contractABI, contractAddress } from "../utils/constants";
 
 export const TransactionContext = React.createContext();
@@ -39,7 +38,8 @@ export const TransactionsProvider = ({ children }) => {
           timestamp: new Date(transaction.timestamp.toNumber() * 1000).toLocaleString(),
           message: transaction.message,
           keyword: transaction.keyword,
-          amount: parseInt(transaction.amount._hex) / (10 ** 18)
+          // amount: transaction.amount._hex)-previous code here.
+          amount: parseInt(transaction.amount.hex, 10) / (10 ** 18)
         }));
 
         console.log(structuredTransactions);
@@ -55,8 +55,8 @@ export const TransactionsProvider = ({ children }) => {
 
   const checkIfWalletIsConnect = async () => {
     try {
-      if (!ethereum) return alert("Please install MetaMask.");
-
+      if (!ethereum) alert("Please install MetaMask.");
+      // took out return key word before alert above
       const accounts = await ethereum.request({ method: "eth_accounts" });
 
       if (accounts.length) {
@@ -88,8 +88,8 @@ export const TransactionsProvider = ({ children }) => {
 
   const connectWallet = async () => {
     try {
-      if (!ethereum) return alert("Please install MetaMask.");
-
+      if (!ethereum) alert("Please install MetaMask.");
+      // took out return key word before alert above
       const accounts = await ethereum.request({ method: "eth_requestAccounts", });
 
       setCurrentAccount(accounts[0]);
@@ -113,7 +113,8 @@ export const TransactionsProvider = ({ children }) => {
             from: currentAccount,
             to: addressTo,
             gas: "0x5208",
-            value: parsedAmount._hex,
+            // value: parsedAmount._hex,-previous code here.
+            value: parsedAmount.hex,
           }],
         });
 
@@ -145,7 +146,8 @@ export const TransactionsProvider = ({ children }) => {
 
   return (
     <TransactionContext.Provider
-      value={{
+    // changed curly braces here to perentheses to remove error?
+      value={(
         transactionCount,
         connectWallet,
         transactions,
@@ -153,8 +155,8 @@ export const TransactionsProvider = ({ children }) => {
         isLoading,
         sendTransaction,
         handleChange,
-        formData,
-      }}
+        formData
+      )}
     >
       {children}
     </TransactionContext.Provider>
